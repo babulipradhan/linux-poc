@@ -1,0 +1,23 @@
+1. sudo apt-get install nasm
+2. nasm -f elf hello.asm
+	or
+   nasm -f elf64 hello.asm -o hello.o
+3. ld hello.o -o hello
+4. ./hello
+
+----------------------------
+nasm -f elf64 pause.asm -o pause.o
+ld pause.o -o pause
+./pause & -- Note PID(3141) from this commands
+
+ps -p [pid] -o pid,sz,vsz,rss,comm
+
+pid: process id
+sz: 	The amount of memory(in KB) the ps thinks the program is using
+vsz: 	Virtual memory(in KB) the programm has been assigned
+rss:	Resident set size is supposed to indicate how much physical memory actually consumed by the program
+comm:   Command
+
+Exampe output:
+    PID    SZ    VSZ   RSS COMMAND
+   3141    41    164     0 pause
