@@ -21,6 +21,13 @@ $sudo usermod -a -G sftp sftpuser
 //Verify sftp group details
 $grep sftp /etc/group
 
+//Creating Chroot jail environment
+$ sudo chown root /home/sftpuser
+$ sudo chmod g+rx /home/sftpuser
+
+$ mkdir /home/sftpuser/data
+$ chown sftpuser:sftpuser /home/sftpuser/data
+
 //Create directory for sftp users
 $sudo mkdir -p /var/sftp/Files
 

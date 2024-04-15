@@ -21,7 +21,7 @@
 	Change the owner of the key files so that only owner can read, write, and execute these files. 
 	$chmod 700 ./id_rsa*
 	
-3. Create .ssh Directory On SFTP Server (192.168.1.4 --centos clone)
+3. Create .ssh Directory On SFTP Server (192.168.1.4 --centos-8)
 
 	log into to the sftp server with sftp user
 	Create .ssh directory under the home directory of sftp user: 
@@ -38,7 +38,27 @@
 4. Copy the client public key to sftp server
 
 	Copy the public key present in file id_rsa.pub inside client vm (192.168.1.5)
-	Go to server vm (192.168.1.4) and add the public key in /sftpuser/.ssh/authorized_keys
+	Go to server vm (192.168.1.4) and add the public key in /home/sftpuser/.ssh/authorized_keys
 	
 5. Connect to server
 	$ sftp sftpuser@192.168.1.4
+	$ put test.txt
+	
+Uploading test.txt to /test.txt
+remote open("/test.txt"): Permission denied
+	
+----------------"Permission denied" Error while putting file-----------
+sudo adduser sftpuser
+sudo passwd sftpuser 
+
+sudo chown root:root /home/sftpuser
+sudo chmod 755 /home/sftpuser 
+
+sudo mkdir /home/sftpuser/data
+sudo chown sftpuser:sftpuser /home/sftpuser/data
+--above commands are optional---try above if below commands does not work---
+
+//sftp to speficif folder '/data' as mentioned below
+
+$ sftp sftpuser@192.168.1.4:/data
+$ put test.txt
