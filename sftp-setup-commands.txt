@@ -1,0 +1,51 @@
+sudo apt update
+sudo apt upgrade
+sudo apt autoremove
+
+//Create group
+sudo addgroup sftp
+
+sudo groupadd sftp	//(centos)
+
+//Create user
+$sudo adduser sftpuser
+
+// Set password
+$passwd sftpuser
+sftpuser
+sftpuser
+
+//Add user to group
+$sudo usermod -a -G sftp sftpuser
+
+//Verify sftp group details
+$grep sftp /etc/group
+
+//Create directory for sftp users
+$sudo mkdir -p /var/sftp/Files
+
+//Set the ownership of directory to root user
+$sudo chown root:root /var/sftp
+
+//Change access permission of the directory
+$sudo chown sftpuser:sftpuser /var/sftp/Files
+
+//Modify ssh script to add script
+$sudo vi /etc/ssh/sshd_config
+
+script :
+
+Match User sftpuser
+ChrootDirectory /var/sftp
+X11Forwarding no
+AllowTcpForwarding no
+PermitTTY no
+ForceCommand internal-sftp
+
+
+//Restart ssh service
+$sudo systemctl restart ssh
+	or
+$sudo systemctl restart sshd 	// centos
+
+//Set up port forwarding to connect to 22 port of the VM in VirtualBox

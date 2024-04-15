@@ -1,0 +1,44 @@
+192.168.1.2
+
+1. Create The .ssh Directory on client (192.168.1.5 --centos clone)
+	Just enter: 
+	$cd ~
+	You should now be inside your home directory.
+	To add the .ssh directory, just enter: 
+	$mkdir .ssh
+2. Run ssh-keygen
+   Run the ssh-keygen command: 
+   $ssh-keygen
+	Keep pressing Enter to set the default values
+	
+	publickey and privatekey will be generated under ~/.ssh/
+	
+	$ll ~/.ssh
+	
+	id_rsa : privatekey file
+	id_rsa.pub : publickey file
+	
+	Change the owner of the key files so that only owner can read, write, and execute these files. 
+	$chmod 700 ./id_rsa*
+	
+3. Create .ssh Directory On SFTP Server (192.168.1.4 --centos clone)
+
+	log into to the sftp server with sftp user
+	Create .ssh directory under the home directory of sftp user: 
+	$cd ~
+	$mkdir .ssh
+	
+	Assign the required permissions for this directory by running: 
+	$chmod 700 .ssh
+	
+	Navigate to your newly created .ssh directory and create authorized_keys file which will hold the contents of the ssh public key.
+	$touch authorized_keys
+	$chmod 700 authorized_keys
+	
+4. Copy the client public key to sftp server
+
+	Copy the public key present in file id_rsa.pub inside client vm (192.168.1.5)
+	Go to server vm (192.168.1.4) and add the public key in /sftpuser/.ssh/authorized_keys
+	
+5. Connect to server
+	$ sftp sftpuser@192.168.1.4

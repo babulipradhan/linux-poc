@@ -13,11 +13,27 @@ ld pause.o -o pause
 ps -p [pid] -o pid,sz,vsz,rss,comm
 
 pid: process id
-sz: 	The amount of memory(in KB) the ps thinks the program is using
-vsz: 	Virtual memory(in KB) the programm has been assigned
+sz: 	The amount of memory(in KiB) the ps thinks the program is using
+vsz: 	Virtual memory(in KiB) the programm has been assigned
 rss:	Resident set size is supposed to indicate how much physical memory actually consumed by the program
 comm:   Command
 
 Exampe output:
     PID    SZ    VSZ   RSS COMMAND
    3141    41    164     0 pause
+
+
+--------------------
+cat /proc/[pid]/smaps
+
+cat /proc/[pid]/maps
+
+sample output:
+00400000-00401000 r--p 00000000 08:05 263106                             /home/babuli/pause
+00401000-00402000 r-xp 00001000 08:05 263106                             /home/babuli/pause
+7ffd450eb000-7ffd4510c000 rw-p 00000000 00:00 0                          [stack]
+7ffd45184000-7ffd45188000 r--p 00000000 00:00 0                          [vvar]
+7ffd45188000-7ffd4518a000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]
+
+dd status=none if=/proc/2690/mem bs=4096 skip=$((0x7ffd450eb)) count=$((0x7ffd4510c-0x7ffd450eb)) | od -Ax -tx1z -w16 -v
